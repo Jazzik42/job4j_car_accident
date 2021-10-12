@@ -23,7 +23,9 @@ public class Accident {
             return false;
         }
         Accident accident = (Accident) o;
-        return Objects.equals(name, accident.name) && Objects.equals(text, accident.text) && Objects.equals(address, accident.address);
+        return Objects.equals(name, accident.name)
+                && Objects.equals(text, accident.text)
+                && Objects.equals(address, accident.address);
     }
 
     @Override
