@@ -25,19 +25,16 @@
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Пользователи
+                Accidents
             </div>
             <div class="card-body">
                 <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">Имя</th>
-                    </tr>
-                    </thead>
                     <tbody>
-                    <c:forEach items="${users}" var="user">
+                    <c:forEach items="${accidents}" var="acc">
                         <tr>
-                            <td><c:out value="${user}"/></td>
+                            <td><c:out value="${acc.getName()}"/></td>
+                            <td><c:out value="${acc.getText()}"/></td>
+                            <td><c:out value="${acc.getAddress()}"/></td>
                         </tr>
                     </c:forEach>
                     </tbody>
