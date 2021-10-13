@@ -1,6 +1,5 @@
 package ru.job4j.accident.model;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,13 +22,11 @@ public class Accident {
             return false;
         }
         Accident accident = (Accident) o;
-        return Objects.equals(name, accident.name)
-                && Objects.equals(text, accident.text)
-                && Objects.equals(address, accident.address);
+        return id == accident.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, text, address);
+        return Objects.hash(id);
     }
 }
