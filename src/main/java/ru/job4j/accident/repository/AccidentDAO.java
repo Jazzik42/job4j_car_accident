@@ -8,5 +8,7 @@ public interface AccidentDAO {
 
      List<Accident> getAccidents();
 
-     void addAccident(Accident accident);
+     void saveOrUpdateAccident(Accident accident);
+
+     Accident getAccident(int id);
 }

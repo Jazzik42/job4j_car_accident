@@ -1,25 +1,30 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <body>
-<form  action="<c:url value='/save'/>" method='POST'>
+<form:form action="save" modelAttribute="accident">
+    <form:hidden path="id"/>
     <table>
         <tr>
-            <td>Название:</td>
-            <td><input type='text' name='name'></td>
+            <td>Название:
+            <form:input path="name"/>
+            </td>
         </tr>
         <tr>
-            <td>Содержание:</td>
-            <td><input type='text' name='text'></td>
+            <td>Содержание:
+            <form:input path="text" />
+            </td>
         </tr>
         <tr>
-            <td>Адрес:</td>
-            <td><input type='text' name='address'></td>
+            <td>Адрес:
+            <form:input path="address" />
+            </td>
         </tr>
         <tr>
             <td colspan='2'><input name="submit" type="submit" value="Сохранить" /></td>
         </tr>
     </table>
-</form>
+</form:form>
 </body>
 </html>

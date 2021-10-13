@@ -23,16 +23,25 @@ public class AccidentMem implements AccidentDAO {
         accident2.setAddress("address2");
         accident2.setName("name2");
         accident2.setText("text2");
-        this.addAccident(accident1);
-        this.addAccident(accident2);
+        this.saveOrUpdateAccident(accident1);
+        this.saveOrUpdateAccident(accident2);
     }
 
+    @Override
     public List<Accident> getAccidents() {
         return new ArrayList<>(accidents.values());
     }
 
-    public void addAccident(Accident accident) {
-        accident.setId(id.getAndIncrement());
+    @Override
+    public void saveOrUpdateAccident(Accident accident) {
+        if (accident.getId() == 0) {
+            accident.setId(id.getAndIncrement());
+        }
         accidents.put(accident.getId(), accident);
+    }
+
+    @Override
+    public Accident getAccident(int id) {
+        return accidents.get(id);
     }
 }

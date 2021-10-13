@@ -8,5 +8,7 @@ public interface AccidentService {
 
     List<Accident> getAccidents();
 
-    void addAccident(Accident accident);
+    void saveOrUpdateAccident(Accident accident);
+
+    Accident getAccident(int id);
 }

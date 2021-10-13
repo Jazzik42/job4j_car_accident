@@ -31,11 +31,19 @@
                 <table class="table">
                     <tbody>
                     <c:forEach items="${accidents}" var="acc">
+                        <c:url var="editButton" value ="/edit">
+                            <c:param name="accId" value="${acc.id}"/>
+                        </c:url>
                         <tr>
                             <td><c:out value="${acc.getName()}"/></td>
                             <td><c:out value="${acc.getText()}"/></td>
                             <td><c:out value="${acc.getAddress()}"/></td>
+                            <td>
+                                <input type="button" value="Update"
+                                    onClick = "window.location.href = '${editButton}'">
+                            </td>
                         </tr>
+
                     </c:forEach>
                     </tbody>
                 </table>

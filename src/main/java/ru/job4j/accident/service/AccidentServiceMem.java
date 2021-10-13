@@ -22,7 +22,12 @@ public class AccidentServiceMem implements AccidentService {
     }
 
     @Override
-    public void addAccident(Accident accident) {
-        accidentDAO.addAccident(accident);
+    public void saveOrUpdateAccident(Accident accident) {
+        accidentDAO.saveOrUpdateAccident(accident);
+    }
+
+    @Override
+    public Accident getAccident(int id) {
+        return accidentDAO.getAccident(id);
     }
 }
