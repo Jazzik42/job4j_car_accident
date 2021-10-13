@@ -2,7 +2,6 @@ package ru.job4j.accident.model;
 
 import lombok.Getter;
 import lombok.Setter;
-
 import java.util.Objects;
 
 @Getter
@@ -12,6 +11,7 @@ public class Accident {
     private String name;
     private String text;
     private String address;
+    private AccidentType type;
 
     @Override
     public boolean equals(Object o) {

@@ -35,9 +35,10 @@
                             <c:param name="accId" value="${acc.id}"/>
                         </c:url>
                         <tr>
-                            <td><c:out value="${acc.getName()}"/></td>
-                            <td><c:out value="${acc.getText()}"/></td>
-                            <td><c:out value="${acc.getAddress()}"/></td>
+                            <td><c:out value="${acc.name}"/></td>
+                            <td><c:out value="${acc.text}"/></td>
+                            <td><c:out value="${acc.address}"/></td>
+                            <td><c:out value="${acc.type.name}"/></td>
                             <td>
                                 <input type="button" value="Update"
                                     onClick = "window.location.href = '${editButton}'">
