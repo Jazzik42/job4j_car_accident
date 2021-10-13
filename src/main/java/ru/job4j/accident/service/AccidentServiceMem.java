@@ -27,7 +27,7 @@ public class AccidentServiceMem implements AccidentService {
     }
 
     @Override
-    public Accident getAccident(int id) {
-        return accidentDAO.getAccident(id);
+    public Accident findById(int id) {
+        return accidentDAO.findById(id);
     }
 }

@@ -29,7 +29,7 @@ public class AccidentControl {
 
     @GetMapping("/edit")
     public String edit(@RequestParam("accId") int id, Model model) {
-        model.addAttribute("accident", accidents.getAccident(id));
+        model.addAttribute("accident", accidents.findById(id));
         return "accident/create";
     }
 }

@@ -10,5 +10,5 @@ public interface AccidentDAO {
 
      void saveOrUpdateAccident(Accident accident);
 
-     Accident getAccident(int id);
+     Accident findById(int id);
 }

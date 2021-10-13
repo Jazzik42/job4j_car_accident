@@ -41,7 +41,7 @@ public class AccidentMem implements AccidentDAO {
     }
 
     @Override
-    public Accident getAccident(int id) {
+    public Accident findById(int id) {
         return accidents.get(id);
     }
 }
