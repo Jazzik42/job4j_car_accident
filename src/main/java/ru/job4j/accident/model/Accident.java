@@ -2,7 +2,10 @@ package ru.job4j.accident.model;
 
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -12,6 +15,11 @@ public class Accident {
     private String text;
     private String address;
     private AccidentType type;
+    private final Set<Rule> rules = new HashSet<>();
+
+    public void saveRule(Rule rule) {
+        rules.add(rule);
+    }
 
     @Override
     public boolean equals(Object o) {

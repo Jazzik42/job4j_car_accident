@@ -40,6 +40,17 @@
                             <td><c:out value="${acc.address}"/></td>
                             <td><c:out value="${acc.type.name}"/></td>
                             <td>
+                            <table class="table">
+                                <tbody>
+                            <c:forEach items="${acc.rules}" var="rule">
+                                <tr>
+                                    <td><c:out value="${rule.name}"/></td>
+                                </tr>
+                            </c:forEach>
+                                </tbody>
+                            </table>
+                            </td>
+                            <td>
                                 <input type="button" value="Update"
                                     onClick = "window.location.href = '${editButton}'">
                             </td>
