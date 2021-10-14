@@ -2,17 +2,17 @@ package ru.job4j.accident.repository;
 
 import org.springframework.stereotype.Repository;
 import ru.job4j.accident.model.Accident;
+import ru.job4j.accident.model.AccidentType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
 public class AccidentMem implements AccidentDAO {
+
+    private static final AtomicInteger AC_ID = new AtomicInteger(1);
     private final Map<Integer, Accident> accidents = new HashMap<>();
-    private AtomicInteger id = new AtomicInteger(1);
+    private final Map<Integer, AccidentType> types = new HashMap<>();
 
     public AccidentMem() {
         Accident accident1 = new Accident();
@@ -25,6 +25,9 @@ public class AccidentMem implements AccidentDAO {
         accident2.setText("text2");
         this.saveOrUpdateAccident(accident1);
         this.saveOrUpdateAccident(accident2);
+        types.put(1, AccidentType.of(1, "Две машины"));
+        types.put(2, AccidentType.of(2, "Машина и человек"));
+        types.put(3, AccidentType.of(3, "Машина и велосипед"));
     }
 
     @Override
@@ -35,13 +38,29 @@ public class AccidentMem implements AccidentDAO {
     @Override
     public void saveOrUpdateAccident(Accident accident) {
         if (accident.getId() == 0) {
-            accident.setId(id.getAndIncrement());
+            accident.setId(AC_ID.getAndIncrement());
         }
         accidents.put(accident.getId(), accident);
     }
 
     @Override
-    public Accident findById(int id) {
-        return accidents.get(id);
+    public Optional<Accident> findById(int id) {
+        if (accidents.containsKey(id)) {
+            return Optional.of(accidents.get(id));
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<AccidentType> findAccidentTypeById(int id) {
+        if (types.containsKey(id)) {
+            return Optional.of(types.get(id));
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public List<AccidentType> findAllAccidentTypes() {
+        return new ArrayList<>(types.values());
     }
 }
