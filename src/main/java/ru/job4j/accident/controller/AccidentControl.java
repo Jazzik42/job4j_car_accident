@@ -1,5 +1,6 @@
 package ru.job4j.accident.controller;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +13,10 @@ import java.util.List;
 
 @Controller
 public class AccidentControl {
+
     private final AccidentService accidentService;
 
-    public AccidentControl(AccidentService accidentService) {
+    public AccidentControl(@Qualifier("JDBC") AccidentService accidentService) {
         this.accidentService = accidentService;
     }
 

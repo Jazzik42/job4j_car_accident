@@ -36,16 +36,17 @@ public class AccidentMem implements AccidentDAO {
     }
 
     @Override
-    public List<Accident> getAccidents() {
+    public List<Accident> findAllAccidents() {
         return new ArrayList<>(accidents.values());
     }
 
     @Override
-    public void saveOrUpdateAccident(Accident accident) {
+    public Accident saveOrUpdateAccident(Accident accident) {
         if (accident.getId() == 0) {
             accident.setId(AC_ID.getAndIncrement());
         }
         accidents.put(accident.getId(), accident);
+        return accident;
     }
 
     @Override

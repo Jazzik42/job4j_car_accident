@@ -15,7 +15,7 @@ public class Accident {
     private String text;
     private String address;
     private AccidentType type;
-    private final Set<Rule> rules = new HashSet<>();
+    private Set<Rule> rules = new HashSet<>();
 
     public void saveRule(Rule rule) {
         rules.add(rule);

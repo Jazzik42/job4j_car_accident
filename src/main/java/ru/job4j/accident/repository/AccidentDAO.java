@@ -9,9 +9,9 @@ import java.util.Optional;
 
 public interface AccidentDAO {
 
-     List<Accident> getAccidents();
+     List<Accident> findAllAccidents();
 
-     void saveOrUpdateAccident(Accident accident);
+     Accident saveOrUpdateAccident(Accident accident);
 
      Optional<Accident> findById(int id);
 
