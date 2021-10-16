@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.model.Rule;
+import ru.job4j.accident.utils.AccidentExtractor;
 
 import java.sql.PreparedStatement;
 import java.util.Comparator;
@@ -16,9 +17,11 @@ import java.util.Optional;
 @Repository
 public class AccidentJdbcTemplate implements AccidentDAO {
     private final JdbcTemplate jdbc;
+    private final AccidentExtractor accidentExtractor;
 
-    public AccidentJdbcTemplate(JdbcTemplate jdbc) {
+    public AccidentJdbcTemplate(JdbcTemplate jdbc, AccidentExtractor accidentExtractor) {
         this.jdbc = jdbc;
+        this.accidentExtractor = accidentExtractor;
     }
 
     @Override
@@ -27,18 +30,8 @@ public class AccidentJdbcTemplate implements AccidentDAO {
                         + "a.text as a_text, a.address as a_address, "
                         + "t.id as t_id, t.name as t_name "
                         + " from accident as a left join type as t on a.type_id = t.id",
-                (rs, row) -> {
-                    Accident accident = new Accident();
-                    accident.setId(rs.getInt("a_id"));
-                    accident.setName(rs.getString("a_name"));
-                    accident.setText(rs.getString("a_text"));
-                    accident.setAddress(rs.getString("a_address"));
-                    AccidentType type = new AccidentType();
-                    type.setId(rs.getInt("t_id"));
-                    type.setName(rs.getString("t_name"));
-                    accident.setType(type);
-                    return accident;
-                });
+                accidentExtractor
+                );
         for (Accident acc : rsl) {
             List<Rule> rules = jdbc.query("select * "
                             + "from accident_rule as a_r "
@@ -110,7 +103,7 @@ public class AccidentJdbcTemplate implements AccidentDAO {
 
     @Override
     public Optional<Accident> findById(int id) {
-        Accident accident = jdbc.query("select "
+        List<Accident> list = jdbc.query("select "
                 + "a.id as a_id, a.name as a_name, "
                 + "a.text as a_text, a.address as a_address, a.type_id "
                 + "as t_id, "
@@ -118,24 +111,12 @@ public class AccidentJdbcTemplate implements AccidentDAO {
                 + "from accident as a "
                 + "left join type as t "
                 + "on a.type_id = t.id "
-                + "where a.id = ?", rs -> {
-            if (!rs.next()) {
-                return null;
-            }
-            Accident acc = new Accident();
-            acc.setId(rs.getInt("a_id"));
-            acc.setName(rs.getString("a_name"));
-            acc.setText(rs.getString("a_text"));
-            acc.setAddress(rs.getString("a_address"));
-            AccidentType type = new AccidentType();
-            type.setId(rs.getInt("t_id"));
-            type.setName(rs.getString("t_name"));
-            acc.setType(type);
-            return acc;
-        }, id);
-        if (accident == null) {
+                + "where a.id = ?",
+            accidentExtractor, id);
+        if (list.isEmpty()) {
             return Optional.empty();
         }
+        Accident accident = list.get(0);
         List<Rule> rules = jdbc.query("select * "
                         + "from accident_rule as a "
                         + "left join rule as r "
