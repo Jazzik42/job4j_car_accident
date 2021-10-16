@@ -20,11 +20,12 @@ public class Accident {
     private String text;
     private String address;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "type_id")
     private AccidentType type;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
+    @Column(name = "rule")
     private Set<Rule> rules = new HashSet<>();
 
     public Accident() {

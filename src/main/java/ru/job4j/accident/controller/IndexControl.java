@@ -11,7 +11,7 @@ public class IndexControl {
 
     private AccidentService accidentService;
 
-    public IndexControl(@Qualifier("JDBC") AccidentService accidentService) {
+    public IndexControl(@Qualifier("HIBER") AccidentService accidentService) {
         this.accidentService = accidentService;
     }
 

@@ -1,5 +1,6 @@
 package ru.job4j.accident.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +17,7 @@ public class AccidentControl {
 
     private final AccidentService accidentService;
 
-    public AccidentControl(@Qualifier("JDBC") AccidentService accidentService) {
+    public AccidentControl(@Qualifier("HIBER") AccidentService accidentService) {
         this.accidentService = accidentService;
     }
 

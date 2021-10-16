@@ -39,6 +39,8 @@ public class HbmConfig {
         sessionFactory.setPackagesToScan("ru.job4j.accident.model");
         Properties cfg = new Properties();
         cfg.setProperty("hibernate.dialect", dialect);
+        cfg.setProperty("hibernate.hbm2ddl.auto", "update");
+        cfg.setProperty("org.springframework.orm.hibernate5.SpringSessionContext", "thread");
         sessionFactory.setHibernateProperties(cfg);
         return sessionFactory;
     }
