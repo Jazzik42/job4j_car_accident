@@ -29,23 +29,11 @@ public class AccidentJdbcTemplate implements AccidentDAO {
         List<Accident> rsl = jdbc.query("select a.id as a_id, a.name as a_name, "
                         + "a.text as a_text, a.address as a_address, "
                         + "t.id as t_id, t.name as t_name "
-                        + " from accident as a left join type as t on a.type_id = t.id",
+                        + " from accident as a left join type as t on a.type_id = t.id "
+                        + "left join accident_rule as a_r on a.id = a_r.accident_id "
+                        + "left join rule as r on r.id = a_r.rules_id",
                 accidentExtractor
-                );
-        for (Accident acc : rsl) {
-            List<Rule> rules = jdbc.query("select * "
-                            + "from accident_rule as a_r "
-                            + "left join rule as r on a_r.rule_id = r.id where a_r.accident_id = ?",
-                    (rs, row) -> {
-                        Rule rule = new Rule();
-                        rule.setId(rs.getInt("id"));
-                        rule.setName(rs.getString("name"));
-                        return rule;
-                    }, acc.getId());
-            for (Rule rule : rules) {
-                acc.saveRule(rule);
-            }
-        }
+        );
         rsl.sort(Comparator.comparing(Accident::getId));
         return rsl;
     }
@@ -104,34 +92,18 @@ public class AccidentJdbcTemplate implements AccidentDAO {
     @Override
     public Optional<Accident> findById(int id) {
         List<Accident> list = jdbc.query("select "
-                + "a.id as a_id, a.name as a_name, "
-                + "a.text as a_text, a.address as a_address, a.type_id "
-                + "as t_id, "
-                + "t.name as t_name "
-                + "from accident as a "
-                + "left join type as t "
-                + "on a.type_id = t.id "
-                + "where a.id = ?",
-            accidentExtractor, id);
-        if (list.isEmpty()) {
-            return Optional.empty();
-        }
-        Accident accident = list.get(0);
-        List<Rule> rules = jdbc.query("select * "
-                        + "from accident_rule as a "
-                        + "left join rule as r "
-                        + "on a.rule_id = r.id "
-                        + "where a.accident_id = ?",
-                (rs, row) -> {
-                    Rule rule = new Rule();
-                    rule.setId(rs.getInt("id"));
-                    rule.setName(rs.getString("name"));
-                    return rule;
-                }, accident.getId());
-        for (Rule rule : rules) {
-            accident.saveRule(rule);
-        }
-        return Optional.of(accident);
+                        + "a.id as a_id, a.name as a_name, "
+                        + "a.text as a_text, a.address as a_address, a.type_id "
+                        + "as t_id, "
+                        + "t.name as t_name "
+                        + "from accident as a "
+                        + "left join type as t "
+                        + "on a.type_id = t.id "
+                        + "left join accident_rule as a_r on a.id = a_r.accident_id "
+                        + "left join rule as r on r.id = a_r.rules_id "
+                        + "where a.id = ? ",
+                accidentExtractor, id);
+        return Optional.of(list.get(0));
     }
 
     @Override

@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Component;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.AccidentType;
+import ru.job4j.accident.model.Rule;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,6 +30,10 @@ public class AccidentExtractor implements ResultSetExtractor<List<Accident>> {
             type.setName(resultSet.getString("t_name"));
             accident.setType(type);
             data.add(accident);
+            Rule rule = new Rule();
+            rule.setId(resultSet.getInt("id"));
+            rule.setName(resultSet.getString("name"));
+            accident.saveRule(rule);
         }
         return data;
     }
