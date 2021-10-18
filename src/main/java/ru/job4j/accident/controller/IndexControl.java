@@ -1,23 +1,29 @@
 package ru.job4j.accident.controller;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import ru.job4j.accident.service.AccidentService;
+import ru.job4j.accident.model.Accident;
+import ru.job4j.accident.repository.AccidentRepository;
+
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class IndexControl {
 
-    private AccidentService accidentService;
+    private final AccidentRepository accidentRep;
 
-    public IndexControl(@Qualifier("HIBER") AccidentService accidentService) {
-        this.accidentService = accidentService;
+    public IndexControl(AccidentRepository accidentRep) {
+        this.accidentRep = accidentRep;
     }
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("accidents", accidentService.findAllAccidents());
+        List<Accident> res = new ArrayList<>();
+        accidentRep.findAll().forEach(res::add);
+        model.addAttribute("accidents", res);
         return "index";
     }
 }
